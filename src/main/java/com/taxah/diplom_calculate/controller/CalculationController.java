@@ -15,9 +15,7 @@ public class CalculationController {
     private CalculationService service;
 
     @PostMapping("/execute")
-    public String calculate(@RequestBody Session mySession){
-        return service.calculate(mySession);
+    public List<Debt> calculate(@RequestBody Session mySession){
+        return service.calculateSession(mySession);
     }
-
-
 }

@@ -1,5 +1,9 @@
 package com.taxah.diplom_calculate.model.database;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.taxah.diplom_calculate.model.database.abstracts.Account;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,11 +16,10 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class TempUser extends Account {
 
     private Long sessionId;
-
+    @JsonIgnore
     private List<Long> productUsingList;
     public TempUser(Long sessionId, String firstName, String lastName) {
         super(firstName,lastName);
