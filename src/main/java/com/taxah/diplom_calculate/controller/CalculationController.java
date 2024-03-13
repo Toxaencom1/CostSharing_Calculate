@@ -4,6 +4,7 @@ import com.taxah.diplom_calculate.model.Debt;
 import com.taxah.diplom_calculate.model.database.Session;
 import com.taxah.diplom_calculate.service.CalculationService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,5 +18,9 @@ public class CalculationController {
     @PostMapping("/execute")
     public List<Debt> calculate(@RequestBody Session mySession){
         return service.calculateSession(mySession);
+    }
+    @PostMapping("/validate")
+    public ResponseEntity<String> validateSession(@RequestBody Session mySession){
+        return service.validateSession(mySession);
     }
 }
