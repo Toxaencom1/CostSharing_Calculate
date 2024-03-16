@@ -40,21 +40,21 @@ public class CalculationService {
             errorMessage = "Checks are empty";
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
         }
-        for (Check c : session.getCheckList()){
-            if (c.getPayFact() != null){
-                double payFactTotal = c.getPayFact().getAmount();
+        for (Check check : session.getCheckList()){
+            if (check.getPayFact() != null){
+                double payFactTotal = check.getPayFact().getAmount();
                 double sumOfAllProducts = 0.0;
-                for (ProductUsing pu:c.getProductUsingList()){
-                    sumOfAllProducts+=pu.getCost();
+                for (ProductUsing productUsing:check.getProductUsingList()){
+                    sumOfAllProducts+=productUsing.getCost();
                 }
                 if (payFactTotal!=sumOfAllProducts){
                     errorMessage = String.format("Check(%s) payFact(amount = %.0f) is not equals of products sum(%.0f)",
-                            c.getName(),payFactTotal,sumOfAllProducts);
+                            check.getName(),payFactTotal,sumOfAllProducts);
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
                 }
             }else {
                 errorMessage = String.format("Check(%s) payFact is empty",
-                        c.getName());
+                        check.getName());
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
             }
 

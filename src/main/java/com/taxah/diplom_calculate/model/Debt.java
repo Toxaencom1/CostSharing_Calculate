@@ -12,14 +12,17 @@ import java.util.Map;
 public class Debt {
 
     private TempUser toWhom;
-    private Map<TempUser,Double> debtors;
+    private Map<TempUser, Double> debtors;
 
-    public void pileUp(Debt debt){
-        for (Map.Entry<TempUser,Double> entry : debt.getDebtors().entrySet()){
+    public void pileUp(Debt debt) {
+        for (Map.Entry<TempUser, Double> entry : debt.getDebtors().entrySet()) {
             TempUser user = entry.getKey();
             Double value = entry.getValue();
-            if (debt.getDebtors().containsKey(user)){
-                Double existingValue = this.getDebtors().get(user);
+            if (debt.getDebtors().containsKey(user)) {
+                Double existingValue = 0.0; //TODO need to test
+                if (this.getDebtors().get(user) != null) {
+                    existingValue = this.getDebtors().get(user);
+                }
                 this.getDebtors().put(user, existingValue + value);
             }
         }
