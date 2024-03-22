@@ -15,7 +15,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CalculateCheck {
-    private Map<TempUser, Double> allMembers = new HashMap<>();
+    private Map<TempUser, Double> debtMap = new HashMap<>();
     private List<TempUser> sessionMembers;
     private PayFact payFact;
     private List<ProductUsing> productUsingList;
@@ -25,24 +25,22 @@ public class CalculateCheck {
         this.payFact = payFact;
         this.productUsingList = productUsingList;
         for (TempUser tempUser : sessionMembers) {
-            allMembers.put(tempUser, 0.0);
+            debtMap.put(tempUser, 0.0);
         }
     }
 
     public Debt execute() {
         TempUser toWhom = payFact.getTempUser();
+        debtMap.remove(toWhom);
         for (ProductUsing pu : productUsingList) {
             for (TempUser tu : pu.getUsers()) {
-                allMembers.remove(toWhom);
-                if (allMembers.containsKey(tu)) {
-                    if (!payFact.getTempUser().equals(tu)) {
-                        Double existingValue = allMembers.get(tu);
-                        allMembers.put(tu, existingValue + (pu.getCost() / pu.getUsers().size()));
-                    }
+                if (!tu.equals(toWhom)) {
+                    Double existingValue = debtMap.get(tu);
+                    debtMap.put(tu, existingValue + (pu.getCost() / pu.getUsers().size()));
                 }
             }
         }
-        allMembers.entrySet().removeIf(entry -> entry.getValue().equals(0.0));
-        return new Debt(toWhom, allMembers);
+        debtMap.entrySet().removeIf(entry -> entry.getValue().equals(0.0));
+        return new Debt(toWhom, debtMap);
     }
 }

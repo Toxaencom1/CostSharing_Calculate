@@ -18,12 +18,11 @@ public class Debt {
         for (Map.Entry<TempUser, Double> entry : debt.getDebtors().entrySet()) {
             TempUser user = entry.getKey();
             Double value = entry.getValue();
-            if (debt.getDebtors().containsKey(user)) {
-                Double existingValue = 0.0; //TODO need to test
-                if (this.getDebtors().get(user) != null) {
-                    existingValue = this.getDebtors().get(user);
-                }
+            if (this.getDebtors().containsKey(user)) {
+                Double existingValue = this.getDebtors().get(user);
                 this.getDebtors().put(user, existingValue + value);
+            } else {
+                this.getDebtors().put(user, value);
             }
         }
     }

@@ -19,8 +19,9 @@ import java.util.List;
 public class TempUser extends Account {
 
     private Long sessionId;
-    @JsonIgnore
+
     private List<Long> productUsingList;
+
     public TempUser(Long sessionId, String firstName, String lastName) {
         super(firstName,lastName);
         this.sessionId = sessionId;

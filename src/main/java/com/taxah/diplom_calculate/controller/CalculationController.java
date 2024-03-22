@@ -19,6 +19,7 @@ public class CalculationController {
     public List<Debt> calculate(@RequestBody Session mySession){
         return service.calculateSession(mySession);
     }
+
     @PostMapping("/validate")
     public ResponseEntity<String> validateSession(@RequestBody Session mySession){
         return service.validateSession(mySession);

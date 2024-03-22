@@ -15,5 +15,4 @@ public class Check {
     private PayFact payFact;
     private String name;
     private List<ProductUsing> productUsingList;
-
 }
