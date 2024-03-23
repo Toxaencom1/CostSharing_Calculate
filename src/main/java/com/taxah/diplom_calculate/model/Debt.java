@@ -1,6 +1,5 @@
 package com.taxah.diplom_calculate.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.taxah.diplom_calculate.model.database.TempUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;

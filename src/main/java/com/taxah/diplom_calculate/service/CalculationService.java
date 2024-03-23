@@ -34,25 +34,25 @@ public class CalculationService {
                 .execute();
     }
 
-    public ResponseEntity<String> validateSession(Session session){
+    public ResponseEntity<String> validateSession(Session session) {
         String errorMessage = "";
-        if (session.getCheckList().isEmpty()){
+        if (session.getCheckList().isEmpty()) {
             errorMessage = "Checks are empty";
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
         }
-        for (Check check : session.getCheckList()){
-            if (check.getPayFact() != null){
+        for (Check check : session.getCheckList()) {
+            if (check.getPayFact() != null) {
                 double payFactTotal = check.getPayFact().getAmount();
                 double sumOfAllProducts = 0.0;
-                for (ProductUsing productUsing:check.getProductUsingList()){
-                    sumOfAllProducts+=productUsing.getCost();
+                for (ProductUsing productUsing : check.getProductUsingList()) {
+                    sumOfAllProducts += productUsing.getCost();
                 }
-                if (payFactTotal!=sumOfAllProducts){
+                if (payFactTotal != sumOfAllProducts) {
                     errorMessage = String.format("Check(%s) payFact(amount = %.0f) is not equals of products sum(%.0f)",
-                            check.getName(),payFactTotal,sumOfAllProducts);
+                            check.getName(), payFactTotal, sumOfAllProducts);
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
                 }
-            }else {
+            } else {
                 errorMessage = String.format("Check(%s) payFact is empty",
                         check.getName());
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
