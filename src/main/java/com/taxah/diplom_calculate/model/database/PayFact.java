@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+/**
+ * Class for working with Rest API payFact
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

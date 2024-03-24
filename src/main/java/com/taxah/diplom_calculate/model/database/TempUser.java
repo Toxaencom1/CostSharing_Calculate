@@ -8,20 +8,16 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * Class for working with Rest API tempUser
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class TempUser extends Account {
-
     private Long sessionId;
-
     private List<Long> productUsingList;
-
-    public TempUser(Long sessionId, String firstName, String lastName) {
-        super(firstName,lastName);
-        this.sessionId = sessionId;
-    }
 
     @Override
     public String toString() {

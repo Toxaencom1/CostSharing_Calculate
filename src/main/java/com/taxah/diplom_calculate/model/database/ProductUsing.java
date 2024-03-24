@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 
+/**
+ * Class for working with Rest API productUsing
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

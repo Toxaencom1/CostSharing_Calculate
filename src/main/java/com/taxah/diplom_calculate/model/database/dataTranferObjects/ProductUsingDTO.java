@@ -6,7 +6,9 @@ import lombok.Data;
 
 import java.util.List;
 
-
+/**
+ * Data transfer object for ProductUsing
+ */
 @Data
 public class ProductUsingDTO {
     private Long checkId;

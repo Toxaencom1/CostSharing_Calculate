@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.util.Map;
 
+/**
+ * Class for working with debts
+ */
 @Data
 @AllArgsConstructor
 public class Debt {
@@ -13,6 +16,11 @@ public class Debt {
     private TempUser toWhom;
     private Map<TempUser, Double> debtors;
 
+    /**
+     * Method for adding other debt to this debt
+     *
+     * @param debt - debt to add
+     */
     public void pileUp(Debt debt) {
         for (Map.Entry<TempUser, Double> entry : debt.getDebtors().entrySet()) {
             TempUser user = entry.getKey();

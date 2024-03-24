@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class for calculating check debt
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,6 +32,11 @@ public class CalculateCheck {
         }
     }
 
+    /**
+     * Method for calculating check debt
+     *
+     * @return Debt
+     */
     public Debt execute() {
         TempUser toWhom = payFact.getTempUser();
         debtMap.remove(toWhom);
