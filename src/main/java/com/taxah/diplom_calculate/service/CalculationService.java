@@ -5,6 +5,7 @@ import com.taxah.diplom_calculate.model.database.Check;
 import com.taxah.diplom_calculate.model.Debt;
 import com.taxah.diplom_calculate.model.database.ProductUsing;
 import com.taxah.diplom_calculate.model.database.Session;
+import com.taxah.diplom_calculate.model.database.TempUser;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class CalculationService {
             }
         }
         debtList.removeIf(d -> d.getDebtors().values().stream().allMatch(v -> v.equals(0.0)));
-        return debtList;
+        return crossDebtRecalculate(debtList);
     }
 
     /**
@@ -83,5 +84,52 @@ public class CalculationService {
             }
         }
         return ResponseEntity.ok("Ok");
+    }
+
+    /**
+     * Method: crossDebtRecalculate
+     * Description: Recalculates debts among a list of Debt objects by comparing each debt with every other debt.
+     *
+     * @param debtList A list of Debt objects representing debts to be recalculated.
+     * @return The input list of Debt objects after recalculation.
+     */
+    public List<Debt> crossDebtRecalculate(List<Debt> debtList) {
+        if (!debtList.isEmpty()) {
+            for (int i = 0; i < debtList.size(); i++) {
+                for (int j = i + 1; j < debtList.size(); j++) {
+                    recalculateDebts(debtList.get(i), debtList.get(j));
+                }
+            }
+        }
+        return debtList;
+
+    }
+
+    /**
+     * Private Method: recalculateDebts
+     * Description: Recalculates debts between two Debt objects and updates their debtor information accordingly.
+     * takes into account different circumstances when comparing debt
+     *
+     * @param thisDebt  The first Debt object.
+     * @param otherDebt The second Debt object.
+     */
+    private void recalculateDebts(Debt thisDebt, Debt otherDebt) {
+        TempUser thisDebtor = thisDebt.getToWhom();
+        TempUser otherDebtor = otherDebt.getToWhom();
+        if (otherDebt.getDebtors().containsKey(thisDebt.getToWhom()) &&
+                thisDebt.getDebtors().containsKey(otherDebt.getToWhom())) {
+            Double thisExistingDebtValue = otherDebt.getDebtors().get(thisDebtor);
+            Double otherExistingDebtValue = thisDebt.getDebtors().get(otherDebtor);
+            if (thisExistingDebtValue.equals(otherExistingDebtValue)) {
+                thisDebt.getDebtors().remove(otherDebtor);
+                otherDebt.getDebtors().remove(thisDebtor);
+            } else if (thisExistingDebtValue > otherExistingDebtValue) {
+                thisDebt.getDebtors().remove(otherDebtor);
+                otherDebt.getDebtors().put(thisDebtor, thisExistingDebtValue - otherExistingDebtValue);
+            } else if (thisExistingDebtValue < otherExistingDebtValue) {
+                otherDebt.getDebtors().remove(thisDebtor);
+                thisDebt.getDebtors().put(otherDebtor, otherExistingDebtValue - thisExistingDebtValue);
+            }
+        }
     }
 }
